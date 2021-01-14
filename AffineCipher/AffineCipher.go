@@ -25,10 +25,22 @@ func rev(a int64, m int64) int64 {
 	return (1-rev(m%a, a)*m)/a + m
 }
 
+// Вычисление обратного по модулю числа Вариант2
+func gcd(a int64, m int64) int64 {
+	var result int64
+	for i:=0; i<100; i++{
+		if ((a*int64(i)) % m) == 1 {
+			result = int64(i)
+			break
+		}
+	}
+	return result
+}
+
 // Дешифратор
 func deCode(alphabet []string, symbol string, k1 int64, k2 int64) string {
 	idx := index(alphabet, symbol)
-	d := rev(k1, int64(len(alphabet))) * (idx + int64(len(alphabet)) - k2) % int64(len(alphabet))
+	d := gcd(k1, int64(len(alphabet))) * (idx + int64(len(alphabet)) - k2) % int64(len(alphabet))
 	return alphabet[d]
 }
 
@@ -49,6 +61,11 @@ func deCodeAffineCipher(alphabet []string, text string, k1 int64, k2 int64) stri
 	}
 	return deCodedText
 }
+
+//func arr(tomas [][]string) [][]string {
+//
+//	return tomas
+//}
 
 // Перебирает все ключи 12*26=312, 312 возможных ключей
 func hackAffineCipher(alphabet []string, text string) {
@@ -93,23 +110,27 @@ func main() {
 		fmt.Fscan(os.Stdin, &a)
 		fmt.Print("Введите второй ключ: ")
 		fmt.Fscan(os.Stdin, &b)
-		if (a%2) > 0 && a < int64(len(alphabet)) && a > 0 {
-			if b < int64(len(alphabet)) && b >= 0 {
-				var text string
-				fmt.Print("Введите сообщение: ")
-				fmt.Fscan(os.Stdin, &text)
-				var enCodedText string
-				textTOenCode := s.Split(text, "")
+		if a != 13{
+			if (a%2) > 0 && a < int64(len(alphabet)) && a > 0{
+				if b < int64(len(alphabet)) && b >= 0 {
+					var text string
+					fmt.Print("Введите сообщение: ")
+					fmt.Fscan(os.Stdin, &text)
+					var enCodedText string
+					textTOenCode := s.Split(text, "")
 
-				for i := 0; i < len(textTOenCode); i++ {
-					elemFromAlphabet := enCode(alphabet, textTOenCode[i], a, b)
-					enCodedText = enCodedText + elemFromAlphabet
+					for i := 0; i < len(textTOenCode); i++ {
+						elemFromAlphabet := enCode(alphabet, textTOenCode[i], a, b)
+						enCodedText = enCodedText + elemFromAlphabet
+					}
+					fmt.Println(enCodedText)
+				} else {
+					fmt.Println("Один из ключей неверный")
 				}
-				fmt.Println(enCodedText)
 			} else {
 				fmt.Println("Один из ключей неверный")
 			}
-		} else {
+		}else {
 			fmt.Println("Один из ключей неверный")
 		}
 	} else if menu == 2 {
@@ -117,22 +138,26 @@ func main() {
 		fmt.Fscan(os.Stdin, &a)
 		fmt.Print("Введите второй ключ: ")
 		fmt.Fscan(os.Stdin, &b)
-		if (a%2) > 0 && a < int64(len(alphabet)) && a > 0 {
-			if b < int64(len(alphabet)) && b >= 0 {
-				var text string
-				fmt.Print("Введите сообщение: ")
-				fmt.Fscan(os.Stdin, &text)
-				var deCodedText string
-				textTOdeCode := s.Split(text, "")
-				for i := 0; i < len(textTOdeCode); i++ {
-					elemFromAlphabet := deCode(alphabet, textTOdeCode[i], a, b)
-					deCodedText = deCodedText + elemFromAlphabet
+		if a != 13{
+			if (a%2) > 0 && a < int64(len(alphabet)) && a > 0{
+				if b < int64(len(alphabet)) && b >= 0 {
+					var text string
+					fmt.Print("Введите сообщение: ")
+					fmt.Fscan(os.Stdin, &text)
+					var deCodedText string
+					textTOdeCode := s.Split(text, "")
+					for i := 0; i < len(textTOdeCode); i++ {
+						elemFromAlphabet := deCode(alphabet, textTOdeCode[i], a, b)
+						deCodedText = deCodedText + elemFromAlphabet
+					}
+					fmt.Println(deCodedText)
+				} else {
+					fmt.Println("Один из ключей неверный")
 				}
-				fmt.Println(deCodedText)
 			} else {
 				fmt.Println("Один из ключей неверный")
 			}
-		} else {
+		}else {
 			fmt.Println("Один из ключей неверный")
 		}
 	} else if menu == 3 {
